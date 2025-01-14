@@ -24,11 +24,11 @@ def EnterMove(board):
             if pos in freefields:
                 validated = True
         except:
-            print("Indica un numero del 1 al 9, válido")
-    board[pos[0]-1][pos[1]-1] = "O"
+            print("Debes indicar un numero del 1 al 9")
+    board[pos[0]][pos[1]] = "O"
     return VictoryFor(board, "O")
 
-#Lista de espacios en blanco
+#Lista de espacios disponibles en board
 def MakeListOfFreeFields(board):
     freefields = []
     for i in range(len(board)):
@@ -39,41 +39,47 @@ def MakeListOfFreeFields(board):
 
 #Comprueba si el simbolo de sign ha ganado
 def VictoryFor(board, sign):
-    return ((board[0][0]==sign and board[0][1]== sign and board[0][2]==sign )or
-            (board[1][0]==sign and board[1][1]==sign and board[1][2]==sign )or
-            (board[2][0]==sign and board[2][1]==sign and board[2][2]==sign )or
-            (board[0][0]==sign and board[1][0]==sign and board[2][0]== sign )or
-            (board[0][1]==sign and board[1][1]==sign and board[2][1]==sign )or
-            (board[0][2]==sign and board[1][2]==sign and board[2][2]==sign )or
-            (board[0][0]==sign and board[1][1]==sign and board[2][2]==sign )or 
-            (board[0][2]==sign and board[1][1]==sign and board[2][0]==sign ))
+    return ((board[0][0]==sign and board[0][1]== sign and board[0][2]==sign)or
+            (board[1][0]==sign and board[1][1]==sign and board[1][2]==sign)or
+            (board[2][0]==sign and board[2][1]==sign and board[2][2]==sign)or
+            (board[0][0]==sign and board[1][0]==sign and board[2][0]== sign)or
+            (board[0][1]==sign and board[1][1]==sign and board[2][1]==sign)or
+            (board[0][2]==sign and board[1][2]==sign and board[2][2]==sign)or
+            (board[0][0]==sign and board[1][1]==sign and board[2][2]==sign)or 
+            (board[0][2]==sign and board[1][1]==sign and board[2][0]==sign))
 
-#Movimiento de la maquina
+#Movimiento de la maquina aleatorio entre los disponibles
 def DrawMove(board):
     pos = randrange(len(MakeListOfFreeFields(board)))
     pos = ConvertNumberToPos(board,pos)
-    board[pos[0]-1][pos[1]-1] = "X"
+    board[pos[0]][pos[1]] = "X"
     return VictoryFor(board,"X")
 
-#Convierte el numero en la tupla con la posicion
+#Convierte el numero de board en la tupla con la posicion
 def ConvertNumberToPos(board, number):
-    row = (number % len(board))
-    column = (number // len(board))
+    row = (number // len(board[0]))
+    column = (number % len(board))-1
     return (row,column)
 
+##Main
+#Variables
 board = (
     [1, 2, 3],
     [4, 5, 6],
     [7, 8, 9])
 victoria = False
+#Juego
 jugador = str(input("Nombre: "))
 while(not victoria):
     DisplayBoard(board)
+    #Movimiento Jugador
     if EnterMove(board):
         victoria = True
         print("Victoria para", jugador)
-    print("Movimiento de la maquina...")
     DisplayBoard(board)
-    if not victoria and DrawMove(board):
-        victoria = True
-        print("Victoria para Python")
+    if not victoria:
+        #Movimiento Maquina
+        print("Movimiento de la maquina...")
+        if DrawMove(board):
+            victoria = True
+            print("Victoria para Python")
