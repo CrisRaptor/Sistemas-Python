@@ -16,11 +16,12 @@ def EnterMove(board):
     validated = False
     pos = 0
     freefields = MakeListOfFreeFields(board)
-    #print("Posiciones disponibles: ", freefields)
+    print("Posiciones disponibles: ", freefields)
     while (not validated):
         try:
             pos = int(input("Indica una posicion válida para 'O': "))
             pos = ConvertNumberToPos(board,pos)
+            print("Posicion elegida:",pos)
             if pos in freefields:
                 validated = True
         except:
@@ -46,19 +47,21 @@ def VictoryFor(board, sign):
             (board[0][1]==sign and board[1][1]==sign and board[2][1]==sign)or
             (board[0][2]==sign and board[1][2]==sign and board[2][2]==sign)or
             (board[0][0]==sign and board[1][1]==sign and board[2][2]==sign)or 
-            (board[0][2]==sign and board[1][1]==sign and board[2][0]==sign))
+            (board[0][2]==sign and board[1][1]==sign and board[2][0]==sign))   
 
 #Movimiento de la maquina aleatorio entre los disponibles
 def DrawMove(board):
-    pos = randrange(len(MakeListOfFreeFields(board)))
-    pos = ConvertNumberToPos(board,pos)
+    lista = MakeListOfFreeFields(board)
+    pos = randrange(len(lista))
+    pos = lista[pos]
     board[pos[0]][pos[1]] = "X"
     return VictoryFor(board,"X")
 
 #Convierte el numero de board en la tupla con la posicion
 def ConvertNumberToPos(board, number):
+    number -= 1
     row = (number // len(board[0]))
-    column = (number % len(board))-1
+    column = (number % len(board))
     return (row,column)
 
 ##Main
