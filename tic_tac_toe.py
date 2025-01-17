@@ -40,6 +40,15 @@ def MakeListOfFreeFields(board):
 
 #Comprueba si el simbolo de sign ha ganado
 def VictoryFor(board, sign):
+    # victoria = False
+    # temp = False
+    # for x in range(len(board)):
+    #     temp = False
+    #       #Comprueba vertical (sin terminar)
+    #     if (len(board[x]) <=3):
+    #         tupla = ()
+    #         for y in range(3):
+
     return ((board[0][0]==sign and board[0][1]== sign and board[0][2]==sign)or
             (board[1][0]==sign and board[1][1]==sign and board[1][2]==sign)or
             (board[2][0]==sign and board[2][1]==sign and board[2][2]==sign)or
@@ -73,7 +82,7 @@ board = (
 victoria = False
 #Juego
 jugador = str(input("Nombre: "))
-while(not victoria):
+while(not victoria and len(MakeListOfFreeFields(board))!=0):
     DisplayBoard(board)
     #Movimiento Jugador
     if EnterMove(board):
@@ -86,3 +95,7 @@ while(not victoria):
         if DrawMove(board):
             victoria = True
             print("Victoria para Python")
+if (not victoria and len(MakeListOfFreeFields(board))==0){
+    print("No hay más movimiento disponibles.")
+    print("empate")
+}
